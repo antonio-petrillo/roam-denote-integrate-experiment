@@ -2,3 +2,7 @@
 
 This is just an experiment to merge two popular pkm in the emacs ecosystem, [[https://protesilaos.com/emacs/denote][denote]] and [[https://www.orgroam.com][org roam]].
 Nobody is meant to use this code beside me, mainly because is a little bit buggy and tailored to my needs.
+
+* Resources
++ Some inspiration from [[https://org-roam.discourse.group/t/denotes-file-naming-scheme-and-org-roam/2769/25][this]] discussion.
++ The respective projects documentations (aka the source code), you should have installed

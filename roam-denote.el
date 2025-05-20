@@ -14,18 +14,25 @@
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; Commentary:
+;; The main problem here is that org-roam is focused around the `org-capture' system, which I should say is not that intuitive and pleasant to use.
+;; To hack around it I store all the data need in global variable during the filename generation step.
+;; Then I read again the data and insert into the new capture buffer following the frontmatter scheme, in the end I set all the variables to nil.
 ;;
-;;  Description
+;; I know, not the best solution but it works.
 ;;
 ;;; Code:
+
 
 (require 'org-roam)
 (require 'org-roam-protocol)
 (require 'denote)
 
-(defvar nto/org-roam-inherit-tags '())
+(defvar nto/org-roam-inherit-tags
+  "here are stored tags that a new note should inherit from the current one"
+  '())
 
 (defun nto/org-roam-get-inherit-keywords ()
+  "Let the user choose the keywords to pass from a node to the child and store into the global variable `nto/org-roam-inherit-tags'"
   (interactive)
   (let* ((filename (buffer-file-name (current-buffer)))
          (keywords (denote-extract-keywords-from-path filename))
@@ -37,6 +44,7 @@
     (funcall-interactively #'org-roam-node-insert)))
 
 (defun nto/new-org-roam-filename (title &optional fixed-tags template-action)
+  "Read all the data needed to configure a denote note and set the respective variables."
   (let* ((time (current-time))
          (id (denote-get-identifier time))
          (tags (delete-dups (append (denote-keywords-prompt) fixed-tags nto/org-roam-inherit-tags)))
@@ -55,6 +63,7 @@
       (substring 1))))
 
 (defun nto/new-org-roam-template ()
+  "Use the global values to generate the frontmatter for the file and the reset all to nil."
   (let* ((filetags (if nto/org-roam-capture-tags
                        (concat ":" (mapconcat #'identity nto/org-roam-capture-tags ":") ":")))
          (front-matter (concat
@@ -72,6 +81,8 @@
           nto/org-roam-capture-date nil
           nto/org-roam-inherit-tags nil)
     front-matter))
+
+;; just some experiment to integrate also the denote template
 
 (setq denote-templates
       '((empty . "")

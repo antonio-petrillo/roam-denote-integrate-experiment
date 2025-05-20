@@ -1,0 +1,4 @@
+#+title: Readme
+
+This is just an experiment to merge two popular pkm in the emacs ecosystem, [[https://protesilaos.com/emacs/denote][denote]] and [[https://www.orgroam.com][org roam]].
+Nobody is meant to use this code beside me, mainly because is a little bit buggy and tailored to my needs.
